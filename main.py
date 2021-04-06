@@ -3,38 +3,32 @@ from selenium import webdriver
 import time
 import os
 
-USERNAME = 'tinymotions'
+USERNAME = ''
 # Assign your password as a string to the PASSWORD variable instead of using environment variables.
 # For example:
 # PASSWORD = 123456
+PASSWORD = os.getenv("FLASK_PASSWORD")
 
-PASSWORD = os.environ['FLASK_PASSWORD']
-
-browser = webdriver.Firefox()
+browser = webdriver.Chrome()
 
 def start():
+    browser.get('https://instagram.com/direct/inbox')
+    time.sleep(5)
+    browser.find_element_by_xpath("//input[@name=\"username\"]").send_keys(USERNAME)
+    time.sleep(0.3)
+    browser.find_element_by_xpath("//input[@name=\"password\"]").send_keys(PASSWORD)
+    time.sleep(0.5)
+    browser.find_element_by_xpath("//button[@type='submit']").click()
 
-	
-	browser.get('https://instagram.com/direct/inbox')
-	time.sleep(3)
-
-	usernamefield = browser.find_element_by_name('username')
-	passwordfield = browser.find_element_by_name('password')
-	loginbtn = browser.find_element_by_xpath('/html/body/div[1]/section/main/div/article/div/div[1]/div/form/div[4]/button')
-
-	passwordfield.send_keys(PASSWORD)
-	time.sleep(.5)
-	usernamefield.send_keys(USERNAME)
-	time.sleep(.3)
-	loginbtn.click()
 
 def dont_remember_me(): 
 	not_now_btn = browser.find_elements_by_css_selector('button')[1]
 	not_now_btn.click()
 
 def dont_allow_notifications():
-	not_now_btn = browser.find_element_by_xpath("//button[contains(text(),'Şimdi Değil')]")
-	not_now_btn.click()
+    not_now_btn = browser.find_element_by_xpath("//button[contains(text(),'Not Now')]")
+    #not_now_btn = browser.find_element_by_xpath("//button[contains(text(),'Şimdi Değil')]")
+    not_now_btn.click()
 
 def Botify(x):
 	print("botify entered")
@@ -151,11 +145,3 @@ time.sleep(3)
 dont_allow_notifications()
 time.sleep(2)
 loop_chats()
-
-
-
-
-
-
-
-
